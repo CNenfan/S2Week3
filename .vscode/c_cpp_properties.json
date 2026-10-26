@@ -1,0 +1,66 @@
+{
+    // C/C++ 语法补全（IntelliSense）配置。
+    //
+    // 这个文件负责：代码自动补全、参数提示、跳转到定义、悬停查看、
+    // 以及头文件找不到/宏未定义之类的波浪线提示。
+    //
+    // 里面的宏定义和头文件路径，都是照抄本工程 Makefile 里的：
+    //   C_DEFS     = -DUSE_HAL_DRIVER -DSTM32F103xB
+    //   C_INCLUDES = -ICore/Inc ... （见下）
+    // 改工程时，只要同步改这两处即可。
+    "version": 4,
+
+    "configurations": [
+        {
+            "name": "STM32F103",
+
+            // ---- 头文件搜索路径（对应 Makefile 的 C_INCLUDES）----
+            "includePath": [
+                // 用户代码（main.h / gpio.h / stm32f1xx_hal_conf.h 等）
+                "${workspaceFolder}/Core/Inc",
+
+                // STM32F1xx HAL 驱动
+                "${workspaceFolder}/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy",
+
+                // CMSIS 设备头（stm32f103xb.h 等）
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+
+                // CMSIS 内核头（core_cm3.h 等）
+                "${workspaceFolder}/Drivers/CMSIS/Include",
+
+                // STM32 USB Device 中间件（usbd_core.h / usbd_def.h 等）
+                "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
+
+                // USB HID 设备类（usbd_hid.h）
+                "${workspaceFolder}/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc"
+            ],
+
+            // ---- 预处理宏（对应 Makefile 的 C_DEFS）----
+            // USE_HAL_DRIVER : 启用 HAL 库
+            // STM32F103xB    : 告诉 CMSIS 具体型号（决定寄存器定义）
+            "defines": [
+                "USE_HAL_DRIVER",
+                "STM32F103xB"
+            ],
+
+            // 交给 arm-none-eabi-gcc 来提供编译器内置宏。
+            // 需要该编译器在系统 PATH 中；
+            // 若未安装，IntelliSense 会提示找不到编译器，但下面的
+            // includePath / defines 仍能让补全正常工作。
+            "compilerPath": "arm-none-eabi-gcc",
+
+            // 交叉编译参数：内核与指令集（对应 Makefile 的 CPU = -mcpu=cortex-m3）。
+            "compilerArgs": [
+                "-mcpu=cortex-m3",
+                "-mthumb"
+            ],
+
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+
+            // Windows 上的 ARM GCC 交叉工具链用这个模式。
+            "intelliSenseMode": "windows-gcc-arm"
+        }
+    ]
+}
